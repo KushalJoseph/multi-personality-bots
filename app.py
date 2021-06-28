@@ -11,14 +11,16 @@ logging.basicConfig(
     format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
     datefmt='%m-%d %H:%M')
 
-def __create_agent(lang):
-    model_path = './models/model-{}.tar.gz'.format(lang)
+def __create_agent(game):
+    model_path = './models/model-{}.tar.gz'.format(game)
     return Agent.load(model_path=model_path)
-    
+
 agents = {
-    "hindi": __create_agent("hindi"),
     "en": __create_agent("en"),
-    "es": __create_agent("es")
+    "es": __create_agent("es"),
+    "kushal": __create_agent("kushal"),
+    "vishnu": __create_agent("vishnu"),
+    "mayank": __create_agent("mayank")
 }
 
 loop = asyncio.get_event_loop()
@@ -29,11 +31,13 @@ def user_uttered():
     print(request.json)
     sid = str(request.json.get('sid'))
     message = str(request.json.get('message'))
-    lang = str(request.json.get('lang', 'en'))
-    agent = agents.get(lang, 'Language {} is not supported'.format(lang))
+    game = str(request.json.get('game'))
+    agent = agents.get(game)
     bot_response = loop.run_until_complete(
-        agent.parse_message_using_nlu_interpreter(message_data = message)
+        agent.parse_message_using_nlu_interpreter(message_data=message)
+        #agent.handle_text(text_message=message, sender_id=sid)
     )
+    print(bot_response)
     #return ', '.join(map(str, bot_response))
     return bot_response
 
