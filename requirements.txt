@@ -9,3 +9,4 @@ flask==2.0.1
 
 # Rasa requirements
 gast==0.3.3
+gunicorn
