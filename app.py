@@ -5,6 +5,8 @@ import asyncio
 from flask import Flask
 from flask import request
 from rasa.core.agent import Agent
+#from waitress import serve
+
 
 logging.basicConfig(
     level=logging.WARN,
@@ -42,6 +44,13 @@ def user_uttered():
     return bot_response
 
 if __name__ == '__main__':
+	#serve(app, host = "0.0.0.0", port = 8080)
     host = os.getenv('HOST', '0.0.0.0')
     port = int(os.getenv('PORT', 5000))
     app.run(host, port, debug=False, use_reloader=False)
+    
+    
+    
+    
+    
+##
